@@ -1,6 +1,6 @@
 # autopull
 
-Checks for new Docker images and executes a given command if a new image is available.
+Checks for new Docker images and executes commands if a new image is available.
 
 ## Usage
 
