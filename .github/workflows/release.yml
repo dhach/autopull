@@ -5,6 +5,9 @@ on:
     tags:
     - 'v*'
 
+env:
+  ARCH: NONE
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -29,15 +32,19 @@ jobs:
         run: | 
           go build -o autopull
 
-      - name: zip for macos
+      - name: set arch variable
+        if: startsWith(matrix.os, 'macos')
         run: |
-          tar -czf autopull_darwin-amd64.tar.gz autopull
-        if: ${{ matrix.os }} == 'macos-latest'
+          echo "::set-env name=ARCH::_darwin-amd64"
 
-      - name: zip for linux
+      - name: set arch variable
+        if: startsWith(matrix.os, 'ubuntu')
         run: |
-          tar -czf autopull_linux-amd64.tar.gz autopull
-        if: ${{ matrix.os }} == 'ubuntu-latest'
+          echo "::set-env name=ARCH::_linux-amd64"
+
+      - name: create tarball
+        run: |
+          tar -czf autopull_${{ GITHUB_REF }}_${{ env.ARCH }}.tar.gz autopull
 
       - name: Release
         uses: softprops/action-gh-release@v1
