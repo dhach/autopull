@@ -35,12 +35,12 @@ jobs:
       - name: set arch to darwin
         if: startsWith(matrix.os, 'macos')
         run: |
-          echo "::set-env name=ARCH::_darwin-amd64"
+          echo "::set-env name=ARCH::darwin-amd64"
 
       - name: set arch to linux
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          echo "::set-env name=ARCH::_linux-amd64"
+          echo "::set-env name=ARCH::linux-amd64"
 
       - name: create tarball
         run: |
