@@ -17,15 +17,29 @@ Create a text file with an array of JSON Dicts:
   {
     "Image": "debian",
     "Tag": "10",
-    "Action": "systemctl restart foo.service"
+    "Actions": ["systemctl restart foo.service"]
   },
   {
-    "Image": "hello-world",
+    "Image": "my-custom-image",
     "Tag": "latest",
-    "Action": "touch /tmp/foo"
+    "Actions": ["docker stop foo",
+                "docker rm foo",
+                "docker run --name foo my-custom-image:latest"
+                ]
   }
 ]
 ```
+
+Log levels can be set with an environment variable `LOGLEVEL`.
+
+Valid log levels are:
+
+* info
+* error
+* warn
+* debug
+
+If not set or another level is specified, the application will default to info.
 
 ## Deployment
 
@@ -40,5 +54,3 @@ Example (check every 5 minutes):
 ## Notes
 
 If the specified image is not present on the Docker host, no action will be taken.
-
-Also note that, as of now, you cannot chain commands together, using semicolons or ampersands.
