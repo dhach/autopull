@@ -48,7 +48,7 @@ jobs:
 
       - name: create tarball
         run: |
-          tar -czf autopull_${{ GITHUB_REF }}_${{ env.ARCH }}.tar.gz autopull
+          tar -czf autopull_${{ env.VERSION }}_${{ env.ARCH }}.tar.gz autopull
 
       - name: Release
         uses: softprops/action-gh-release@v1
