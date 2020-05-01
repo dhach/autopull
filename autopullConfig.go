@@ -10,8 +10,8 @@ type jsonConfig struct {
 	Image string `json:"image"`
 	// Tag is a simple string holding the image tag to be checked. Defaults to "latest"
 	Tag string `json:"tag"`
-	// Action specifies the command which should be executed upon a successfull pull
-	Action string `json:"action"`
+	// Action specifies the commands which should be executed upon a successfull pull
+	Actions []string `json:"actions"`
 }
 
 func loadConfigs(configFilePath string) (configList []jsonConfig) {
