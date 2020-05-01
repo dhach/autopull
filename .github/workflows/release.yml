@@ -1,0 +1,47 @@
+name: Upload Release
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'macos-latest']
+
+    name: Release
+    steps:
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+
+      - uses: actions/checkout@v2
+
+      - name: get dependencies
+        run: go get -d ./...
+        
+      - name: build
+        run: | 
+          go build -o autopull
+
+      - name: zip for macos
+        run: |
+          tar -czf autopull_darwin-amd64.tar.gz autopull
+        if: ${{ matrix.os }} == 'macos-latest'
+
+      - name: zip for linux
+        run: |
+          tar -czf autopull_linux-amd64.tar.gz autopull
+        if: ${{ matrix.os }} == 'ubuntu-latest'
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: autopull*tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
