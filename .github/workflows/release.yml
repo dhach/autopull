@@ -7,7 +7,6 @@ on:
 
 env:
   ARCH: NONE
-  VERSION: v0.0.0
 
 jobs:
   build:
@@ -33,22 +32,19 @@ jobs:
         run: | 
           go build -o autopull
 
-      - name: set version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: set arch
+      - name: set arch to darwin
         if: startsWith(matrix.os, 'macos')
         run: |
           echo "::set-env name=ARCH::_darwin-amd64"
 
-      - name: set arch variable
+      - name: set arch to linux
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           echo "::set-env name=ARCH::_linux-amd64"
 
       - name: create tarball
         run: |
-          tar -czf autopull_${{ env.VERSION }}_${{ env.ARCH }}.tar.gz autopull
+          tar -czf autopull_${{ env.ARCH }}.tar.gz autopull
 
       - name: Release
         uses: softprops/action-gh-release@v1
