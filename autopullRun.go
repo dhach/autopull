@@ -54,18 +54,23 @@ func (ar *autopullRunner) checkImageUpdate() (changed bool, imageDigestError err
 	return
 }
 
-func (ar *autopullRunner) executeCommand() (execError error) {
+func (ar *autopullRunner) executeCommands() (execError error) {
 	execError = nil
 
-	commandList := strings.Split(ar.options.Action, " ")
+	for _, action := range ar.options.Actions {
+		commandList := strings.Split(action, " ")
+		command := exec.Command(commandList[0])
+		command.Args = commandList
 
-	command := exec.Command(commandList[0])
-	command.Args = commandList
-	log.Info("Running command: ", commandList)
-	out, execError := command.CombinedOutput()
+		log.Info("Running command: ", commandList)
+		out, execError := command.CombinedOutput()
 
-	log.Debug("Stdout of command: ", string(out))
-	log.Error("Stderr of command: ", execError)
+		log.Debug("Stdout of command: ", string(out))
+		if checkError(execError) {
+			log.Error("Stderr of command: ", execError)
+			return execError
+		}
+	}
 
 	return
 }
@@ -80,7 +85,7 @@ func (ar *autopullRunner) Run() (runError error) {
 		return
 	}
 	if changed {
-		err := ar.executeCommand()
+		err := ar.executeCommands()
 		if checkError(err) {
 			runError = err
 			return

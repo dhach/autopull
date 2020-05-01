@@ -30,5 +30,16 @@ func configureLogger() {
 	// log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetReportCaller(true)
 	log.Out = os.Stdout
-	log.SetLevel(logrus.DebugLevel)
+
+	level := os.Getenv("LOGLEVEL")
+	switch level {
+	case "debug":
+		log.SetLevel(logrus.DebugLevel)
+	case "error":
+		log.SetLevel(logrus.ErrorLevel)
+	case "warn":
+		log.SetLevel(logrus.WarnLevel)
+	default:
+		log.SetLevel(logrus.InfoLevel)
+	}
 }
