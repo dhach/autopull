@@ -1,0 +1,17 @@
+version: 2
+updates:
+- package-ecosystem: gomod
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+  open-pull-requests-limit: 10
+  assignees:
+  - dhach
+  labels:
+  - dependabot
+  ignore:
+  - dependency-name: github.com/sirupsen/logrus
+    versions:
+    - 1.7.0
+    - 1.8.0
