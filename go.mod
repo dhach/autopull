@@ -12,7 +12,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0 // indirect
 	google.golang.org/grpc v1.29.1 // indirect
 )
